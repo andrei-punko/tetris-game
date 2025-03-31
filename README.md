@@ -1,5 +1,10 @@
 # Tetris Game
 
+[![Build](https://github.com/andrei-punko/tetris-game/actions/workflows/build.yml/badge.svg)](https://github.com/andrei-punko/tetris-game/actions/workflows/build.yml)
+[![Java](https://img.shields.io/badge/Java-21-red.svg)](https://www.oracle.com/java/)
+[![Maven](https://img.shields.io/badge/Maven-3.6+-blue.svg)](https://maven.apache.org/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-21-orange.svg)](https://openjfx.io/)
+
 Классическая игра Тетрис, реализованная на Java с использованием JavaFX.
 
 ## Требования
