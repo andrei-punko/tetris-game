@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     private static final int CELL_SIZE = 30;
+    private static final double INITIAL_SPEED = 1.0; // Начальная скорость (1 секунда между падениями)
     
     private GameBoard gameBoard;
     private GameBoardView gameBoardView;
@@ -40,22 +41,43 @@ public class GameController implements Initializable {
         gameBoardView = new GameBoardView(gameBoard, CELL_SIZE);
         
         gameBoard.setListener(linesCleared -> {
-            Platform.runLater(() -> updateLabels());
+            Platform.runLater(() -> {
+                updateLabels();
+                updateGameSpeed();
+            });
         });
         
         gameContainer.getChildren().add(gameBoardView);
         gameBoardView.requestFocus();
         
-        gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> update()));
+        startGameLoop();
+        updateLabels();
+    }
+    
+    private void startGameLoop() {
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(INITIAL_SPEED), e -> update()));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
+    }
+    
+    private void updateGameSpeed() {
+        int level = calculateLevel();
+        double speed = INITIAL_SPEED * Math.pow(0.8, level - 1); // Увеличиваем скорость на 20% с каждым уровнем
+        speed = Math.max(0.1, speed); // Минимальная скорость 0.1 секунды
         
-        updateLabels();
+        gameLoop.stop();
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(speed), e -> update()));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
     }
     
     private void update() {
         if (!gameBoard.isGameOver()) {
             if (!gameBoard.moveDown()) {
+                int linesCleared = gameBoard.clearLines();
+                if (linesCleared > 0) {
+                    updateLabels();
+                }
                 if (!gameBoard.spawnTetromino()) {
                     gameOver();
                 }
@@ -83,10 +105,14 @@ public class GameController implements Initializable {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Игра окончена");
-            alert.setHeaderText(null);
-            alert.setContentText("Игра окончена!\nУбрано линий: " + gameBoard.getClearedLines() + 
-                               "\nСчёт: " + calculateScore() + 
-                               "\nУровень: " + calculateLevel());
+            alert.setHeaderText("Игра окончена!");
+            VBox content = new VBox(10);
+            content.getChildren().addAll(
+                new Label("Убрано линий: " + gameBoard.getClearedLines()),
+                new Label("Счёт: " + calculateScore()),
+                new Label("Уровень: " + calculateLevel())
+            );
+            alert.getDialogPane().setContent(content);
             alert.showAndWait();
         });
     }
