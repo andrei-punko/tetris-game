@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tetris.controller.GameController"
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    
+    <HBox spacing="20" alignment="CENTER">
+        <VBox spacing="5">
+            <Label text="Счёт:"/>
+            <Label fx:id="scoreLabel" text="0"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Уровень:"/>
+            <Label fx:id="levelLabel" text="1"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Линий убрано:"/>
+            <Label fx:id="linesLabel" text="0"/>
+        </VBox>
+    </HBox>
+    
+    <VBox fx:id="gameContainer" alignment="CENTER">
+        <!-- Игровое поле будет заполнено программно -->
+    </VBox>
+</VBox> 
