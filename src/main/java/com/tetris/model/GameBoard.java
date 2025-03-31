@@ -12,6 +12,14 @@ public class GameBoard {
     private int clearedLines;
     private GameBoardListener listener;
 
+    public boolean[][] getBoard() {
+        return board;
+    }
+
+    public int[][] getColors() {
+        return colors;
+    }
+
     public interface GameBoardListener {
         void onLinesCleared(int linesCleared);
     }
