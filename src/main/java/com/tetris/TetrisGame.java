@@ -1,6 +1,5 @@
 package com.tetris;
 
-import com.tetris.controller.GameController;
 import com.tetris.model.GameBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TetrisGame extends Application {
-    private GameController gameController;
-    private GameBoard gameBoard;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -19,8 +16,6 @@ public class TetrisGame extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
         VBox root = loader.load();
-        gameController = loader.getController();
-        gameBoard = gameController.getGameBoard();
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
